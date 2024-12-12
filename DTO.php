@@ -1,4 +1,6 @@
-// dto
+<?php
+
+// DTO
 // namespace app\dto;
 
 class UserDTO
@@ -6,7 +8,7 @@ class UserDTO
     public string $username;
     public string $email;
 
-    // Конструктор для удобства инициализации
+    // конструктор для удобства инициализации
     public function __construct(string $username, string $email)
     {
         $this->username = $username;
@@ -14,7 +16,7 @@ class UserDTO
     }
 }
 
-// контроллер
+// Controller
 // namespace app\controllers;
 
 use Yii;
@@ -25,17 +27,16 @@ class UserController extends Controller
 {
     public function actionCreate()
     {
-        // Получаем данные из запроса (например, через форму или API)
+        // получаем данные из запроса (например, через форму)
         $username = Yii::$app->request->post('username');
         $email = Yii::$app->request->post('email');
 
-        // Создаем DTO объект
+        // создаем DTO объект
         $userDto = new UserDTO($username, $email);
 
-        // Передаем DTO в бизнес-логику или репозиторий для сохранения
+        // передаем DTO в бизнес-логику или репозиторий для сохранения
         $this->saveUser($userDto);
 
-        // Отправляем ответ (например, JSON)
         return $this->asJson([
             'message' => 'User created successfully',
             'user' => [
@@ -47,8 +48,8 @@ class UserController extends Controller
 
     private function saveUser(UserDTO $userDto)
     {
-        // Пример: сохраняем пользователя в базу данных через модель
-        $userModel = new \app\models\User();
+        // сохраняем пользователя в базу данных через модель
+        $userModel = new User();
         $userModel->username = $userDto->username;
         $userModel->email = $userDto->email;
         $userModel->save();
