@@ -81,6 +81,12 @@ class AjaxDto {
   public string $q;
   public int $id;
   public ?string $t;
+
+  public function __construct(string $q, int $id, ?string $t) {
+    $this->q = $q;
+    $this->id = $id;
+    $this->t = $t;
+  }
 }
 
 // TaskController::getAjax()
@@ -166,12 +172,18 @@ public function actionGetAjax(AjaxDto $dto, ?Company $company = null): array
 
 // однаком в данном случае может подойти (даже лучше) и VO
 class FullNameDto {
-  public string $first_name;
-  public string $middle_name;
-  public string $last_name;
+  public ?string $first_name = null;
+  public ?string $middle_name = null;
+  public ?string $last_name = null;
+
+  public function __construct(?string $first_name, ?string $middle_name, ?string $last_name) {
+    $this->first_name = $first_name;
+    $this->middle_name = $middle_name;
+    $this->last_name = $last_name;
+  }
 }
 
-public function actionAjaxChangeFullname(FullNameDto $dto): array
+public function actionAjaxChangeFullname(FullNameDto $dto, int $id): array
     {
         Yii::$app->response->format = Response::FORMAT_JSON;
         if (Yii::$app->user->identity->hasNoAccessChain(['producer'])) {
